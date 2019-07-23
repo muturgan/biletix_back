@@ -51,8 +51,14 @@ if (cluster.isMaster) {
 
     domain.run(() => {
 
-        server.listen(PORT, () => {
-            logger.info(`Express server id:${ process.pid } listening on port ${ PORT }`);
+        server.listen(PORT, (err, address) => {
+            if (err) {
+                logger.error(`cant start server`, err);
+                process.exit(1);
+            }
+
+            logger.info(`Server id:${ process.pid } listening on port ${ PORT }`);
+            logger.info(`The address is ${ address }`);
         });
     });
 }

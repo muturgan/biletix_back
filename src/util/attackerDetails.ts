@@ -1,19 +1,13 @@
-import { Request } from 'express';
+import { FastifyRequest } from 'fastify';
 
 
-export const attackerDetails = (req: Request) => {
+export const attackerDetails = (req: FastifyRequest) => {
     return {
         body: req.body,
-        cookies: req.cookies,
         headers: req.headers,
         params: req.params,
         query: req.query,
-        method: req.method,
         hostname: req.hostname,
-        path: req.path,
         ip: req.ip,
-        originalUrl: req.originalUrl,
-        fresh: req.fresh,
-        stale: req.stale,
     };
 };

@@ -1,4 +1,5 @@
-import { Request, Response } from 'express';
+import { ServerResponse } from 'http';
+import { FastifyRequest, FastifyReply } from 'fastify';
 import { logger } from '../services/logger';
 import { knex } from '../services/db-driver';
 import { TOrderDetails } from '../customTypes';
@@ -6,7 +7,7 @@ import { TOrderDetails } from '../customTypes';
 
 
 
-export async function pGetOrderDetails(req: Request, res: Response) {
+export async function pGetOrderDetails(req: FastifyRequest, res: FastifyReply<ServerResponse>) {
     try {
 
         const data = await knex
@@ -16,7 +17,7 @@ export async function pGetOrderDetails(req: Request, res: Response) {
             .where({locator: req.params.locator}) as Array<TOrderDetails>;
 
         if (!data.length) {
-            return res.sendStatus(404);
+            return res.status(404).send();
         }
 
         return res.status(200).send({

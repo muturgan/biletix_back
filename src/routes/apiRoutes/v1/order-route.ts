@@ -1,26 +1,13 @@
-import { Express } from 'express';
-import {
-    pValidateLocator,
-    pGetOrders,
-    pGetOrderDetails,
-        } from '../../../providers';
+import { FastifyInstance } from 'fastify';
+import { pGetOrders, pGetOrderDetails } from '../../../providers';
 
 
 export class OrderRoute {
 
-    public routes(app: Express): void {
+    public routes(app: FastifyInstance): void {
 
-        app.route('/v1/order')
-            .get(
-                pGetOrders,
-            );
+        app.get('/v1/order', pGetOrders);
 
-
-        app.route('/v1/order/:locator')
-            .get(
-                pValidateLocator,
-                pGetOrderDetails,
-            );
-
+        app.get('/v1/order/:locator', pGetOrderDetails);
     }
 }

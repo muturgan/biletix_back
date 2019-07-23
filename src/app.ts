@@ -1,18 +1,29 @@
-import express = require('express');
+import fastify = require('fastify');
 import { apiRoutes } from './routes/apiRoutes/apiRoutes';
-import cors = require('cors');
-import helmet = require('helmet');
-import { Server } from 'http';
+import { createServer } from 'http';
+import bodyParser = require('body-parser');
+const cors = require('cors');
+const helmet = require('helmet');
 
 
-const app = express();
+const app = fastify();
 
 app.use(helmet());
 app.use(cors());
-app.use(express.json({ limit: '5mb' }));
-app.use(express.urlencoded({ extended: false, limit: '5mb' }));
+app.use(bodyParser.json({ limit: '5mb' }));
+app.use(bodyParser.urlencoded({ extended: false, limit: '5mb' }));
 
 app.use('/api', apiRoutes);
 
-const server = new Server(app);
-export default server;
+export default app;
+
+const server = createServer((req, res) => {
+    switch (req.url) {
+        case ('/'):
+            res.statusCode = 200;
+            res.statusMessage = 'fuck';
+            res.end();
+    }
+});
+
+server.listen(2563, () => {});

@@ -1,4 +1,5 @@
-import { Request, Response } from 'express';
+import { ServerResponse } from 'http';
+import { FastifyRequest, FastifyReply } from 'fastify';
 import { logger } from '../services/logger';
 import { knex } from '../services/db-driver';
 import { TOrderUnpreparedData, knexRawSelectResponseType } from '../customTypes';
@@ -7,7 +8,7 @@ import { processOrders } from '../util';
 
 
 
-export async function pGetOrders(req: Request, res: Response) {
+export async function pGetOrders(req: FastifyRequest, res: FastifyReply<ServerResponse>) {
     try {
 
         const result = await knex.raw(`
